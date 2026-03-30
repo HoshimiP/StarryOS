@@ -624,7 +624,7 @@ dependencies = [
  "axalloc",
  "axconfig",
  "axcpu",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "axplat-aarch64-qemu-virt",
  "axplat-dyn",
  "axplat-loongarch64-qemu-virt",
@@ -756,13 +756,27 @@ dependencies = [
 
 [[package]]
 name = "axplat"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f4de04c54b63bf2ca1ff202733d2516da49d7779649cdb2f9c4ecf22909e6810"
+dependencies = [
+ "axplat-macros",
+ "bitflags 2.11.0",
+ "const-str 0.6.4",
+ "crate_interface 0.1.4",
+ "kspin",
+ "memory_addr",
+]
+
+[[package]]
+name = "axplat"
 version = "0.3.1-pre.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "29d8d929fe41fcb361cf784819041f942aba4bcd2d26b9a26305df84e26b206b"
 dependencies = [
  "axplat-macros",
  "bitflags 2.11.0",
- "const-str",
+ "const-str 1.1.0",
  "crate_interface 0.3.0",
  "handler_table",
  "kspin",
@@ -781,7 +795,7 @@ dependencies = [
  "arm_pl011",
  "arm_pl031",
  "axcpu",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "int_ratio",
  "kspin",
  "lazyinit",
@@ -797,7 +811,7 @@ checksum = "dff51219e3ff388368eec683f83b5a8184b3125bac709006f6ac22e435dc07e4"
 dependencies = [
  "axconfig-macros",
  "axcpu",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "axplat-aarch64-peripherals",
  "log",
  "page_table_entry",
@@ -814,7 +828,7 @@ dependencies = [
  "axcpu",
  "axerrno 0.2.2",
  "axklib",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "heapless 0.9.2",
  "log",
  "percpu",
@@ -830,7 +844,7 @@ checksum = "0bb9c67d904ccf30561a6239b67411058b215cb6d6a8d3ac737e7a51230b40bf"
 dependencies = [
  "axconfig-macros",
  "axcpu",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "chrono",
  "kspin",
  "lazyinit",
@@ -859,7 +873,7 @@ checksum = "08f91aff22afadd24807e34fb94fe4d0d2c8c5b86fb89dd6ff87a8093f812518"
 dependencies = [
  "axconfig-macros",
  "axcpu",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "kspin",
  "lazyinit",
  "log",
@@ -878,7 +892,7 @@ checksum = "662ba689afa1972ce4addf32f7873c0aa7bc4ca11be17b69977f677805a2d356"
 dependencies = [
  "axconfig-macros",
  "axcpu",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "kspin",
  "lazyinit",
  "log",
@@ -897,7 +911,7 @@ checksum = "9df26719c444ca8302e9366b8dc5abe8735933ea756ff094e3ac5ce3b64c41a1"
 dependencies = [
  "axconfig-macros",
  "axcpu",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "bitflags 2.11.0",
  "heapless 0.9.2",
  "int_ratio",
@@ -945,7 +959,7 @@ dependencies = [
  "axmm",
  "axnet",
  "axnet-ng",
- "axplat",
+ "axplat 0.3.1-pre.6",
  "axtask",
  "cfg-if",
  "chrono",
@@ -1250,6 +1264,12 @@ name = "const-default"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b396d1f76d455557e1218ec8066ae14bba60b4b36ecd55577ba979f5db7ecaa"
+
+[[package]]
+name = "const-str"
+version = "0.6.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "451d0640545a0553814b4c646eb549343561618838e9b42495f466131fe3ad49"
 
 [[package]]
 name = "const-str"
@@ -2460,14 +2480,29 @@ version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bc266eb313df6c5c09c1c7b1fbe2510961e5bcd3add930c1e31f7ed9da0feff8"
 dependencies = [
- "rand_core",
+ "rand_core 0.10.0",
 ]
+
+[[package]]
+name = "rand_core"
+version = "0.6.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
 
 [[package]]
 name = "rand_core"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0c8d0fd677905edcbeedbf2edb6494d676f0e98d54d5cf9bda0b061cb8fb8aba"
+
+[[package]]
+name = "rand_pcg"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "59cad018caf63deb318e5a4586d99a24424a364f40f1e5778c29aca23f4fc73e"
+dependencies = [
+ "rand_core 0.6.4",
+]
 
 [[package]]
 name = "ranges-ext"
@@ -3050,6 +3085,7 @@ dependencies = [
  "spin 0.10.0",
  "starry-process",
  "starry-signal",
+ "starry-vdso",
  "starry-vm",
  "strum 0.28.0",
  "syscalls",
@@ -3105,6 +3141,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "starry-vdso"
+version = "0.1.1"
+dependencies = [
+ "axerrno 0.2.2",
+ "axplat 0.2.0",
+ "cfg-if",
+ "kernel-elf-parser",
+ "log",
+ "memory_addr",
+ "rand_core 0.6.4",
+ "rand_pcg",
+ "xmas-elf",
+]
+
+[[package]]
 name = "starry-vm"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3122,6 +3173,7 @@ dependencies = [
  "axfeat",
  "axplat-riscv64-visionfive2",
  "starry-kernel",
+ "starry-vdso",
 ]
 
 [[package]]

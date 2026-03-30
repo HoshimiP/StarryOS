@@ -1,5 +1,6 @@
 use axerrno::{AxError, AxResult};
 use axtask::current;
+use starry_vm::{VmMutPtr, VmPtr};
 
 use crate::task::AsThread;
 
@@ -19,6 +20,19 @@ pub fn sys_getppid() -> AxResult<isize> {
 
 pub fn sys_gettid() -> AxResult<isize> {
     Ok(current().id().as_u64() as _)
+}
+
+pub fn sys_getcpu(cpu: *mut u32, node: *mut u32, _tcache: *mut usize) -> AxResult<isize> {
+    let cpu_id = axhal::percpu::this_cpu_id() as u32;
+
+    if let Some(cpu) = cpu.nullable() {
+        cpu.vm_write(cpu_id)?;
+    }
+    if let Some(node) = node.nullable() {
+        node.vm_write(0)?;
+    }
+
+    Ok(0)
 }
 
 /// ARCH_PRCTL codes

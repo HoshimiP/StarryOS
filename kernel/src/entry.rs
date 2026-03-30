@@ -2,11 +2,17 @@ use alloc::{
     string::{String, ToString},
     sync::Arc,
 };
+#[cfg(any(target_arch = "x86_64", target_arch = "loongarch64"))]
+use alloc::format;
+#[cfg(any(target_arch = "x86_64", target_arch = "loongarch64"))]
+use core::sync::atomic::{AtomicUsize, Ordering};
 
 use axfs::FS_CONTEXT;
 use axhal::uspace::UserContext;
 use axsync::Mutex;
 use axtask::{AxTaskExt, spawn_task};
+#[cfg(any(target_arch = "x86_64", target_arch = "loongarch64"))]
+use axtask::{AxCpuMask, TaskInner, yield_now};
 use starry_process::{Pid, Process};
 
 use crate::{
@@ -16,10 +22,49 @@ use crate::{
     task::{ProcessData, Thread, add_task_to_table, new_user_task, spawn_alarm_task},
 };
 
+#[cfg(any(target_arch = "x86_64", target_arch = "loongarch64"))]
+fn init_vdso_getcpu_all_cpus() {
+    static INITED_CPUS: AtomicUsize = AtomicUsize::new(0);
+
+    let cpu_num = axhal::cpu_num();
+    INITED_CPUS.store(0, Ordering::Release);
+
+    for cpu_id in 0..cpu_num {
+        let mut task = TaskInner::new(
+            move || {
+                starry_vdso::vdso::init_vdso_getcpu(cpu_id as u32, 0);
+                INITED_CPUS.fetch_add(1, Ordering::AcqRel);
+            },
+            format!("vdso-getcpu-init-{cpu_id}"),
+            axconfig::TASK_STACK_SIZE,
+        );
+
+        let mut cpumask = AxCpuMask::new();
+        cpumask.set(cpu_id, true);
+        task.set_cpumask(cpumask);
+        spawn_task(task);
+    }
+
+    while INITED_CPUS.load(Ordering::Acquire) < cpu_num {
+        yield_now();
+    }
+
+    info!("Initialized vDSO getcpu on {cpu_num} CPUs");
+}
+
 /// Initialize and run initproc.
 pub fn init(args: &[String], envs: &[String]) {
     pseudofs::mount_all().expect("Failed to mount pseudofs");
     spawn_alarm_task();
+
+    info!("Initialize vDSO data...");
+    starry_vdso::vdso::init_vdso_data();
+    #[cfg(any(target_arch = "x86_64", target_arch = "loongarch64"))]
+    init_vdso_getcpu_all_cpus();
+
+    axtask::register_timer_callback(|_| {
+        starry_vdso::vdso::update_vdso_data();
+    });
 
     let loc = FS_CONTEXT
         .lock()
