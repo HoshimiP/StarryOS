@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["api", "core", "user/musl/async_test", "modules/hello", "modules/kebpf"]
+members = ["api", "core", "user/musl/async_test", "user/musl/vdso_call", "modules/hello", "modules/kebpf"]
 exclude = ["arceos"]
 
 [workspace.package]
@@ -30,6 +30,7 @@ axfeat = { path = "arceos/api/axfeat", features = [
     "sched-rr",
 ] }
 
+starry-vdso ={ path = "../starry-vdso" }
 axalloc = { path = "arceos/modules/axalloc" }
 axconfig = { path = "arceos/modules/axconfig" }
 axdisplay = { path = "arceos/modules/axdisplay" }
@@ -158,6 +159,7 @@ starry-signal.workspace = true
 
 starry-core.workspace = true
 starry-api.workspace = true
+
 
 kebpf = { path = "modules/kebpf", optional = true }
 

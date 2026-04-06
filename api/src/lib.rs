@@ -50,6 +50,9 @@ impl axruntime::PanicHelper for KernelPanicHelper {
 
 /// Initialize.
 pub fn init() {
+    info!("Initialize vDSO data...");
+    starry_vdso::vdso::init_vdso_data();
+
     #[cfg(feature = "kprobe_test")]
     kprobe::kprobe_test::kprobe_test();
 

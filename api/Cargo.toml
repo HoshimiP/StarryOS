@@ -82,6 +82,7 @@ kapi.workspace = true
 kbpf-basic.workspace = true
 kprobe.workspace = true
 tracepoint.workspace = true
+starry-vdso.workspace = true
 
 [target.'cfg(not(target_arch = "loongarch64"))'.dependencies]
 unwinding = { version = "=0.2.8", default-features = false, features = [

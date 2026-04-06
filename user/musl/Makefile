@@ -43,7 +43,8 @@ build:
 
 
 BUILD_CRATES = \
-	async_test
+	async_test \
+	vdso_call
 
 BUILD_EBPF_CRATES = \
 	rawtp \
