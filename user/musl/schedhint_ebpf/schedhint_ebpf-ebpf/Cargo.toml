@@ -1,0 +1,24 @@
+[package]
+name = "schedhint_ebpf-ebpf"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+schedhint_ebpf-common = { path = "../schedhint_ebpf-common" }
+
+aya-ebpf = { workspace = true }
+aya-log-ebpf = { workspace = true }
+
+[features]
+default = []
+riscv64 = []
+x86_64 = []
+loongarch64 = []
+aarch64 = []
+
+[build-dependencies]
+which = { workspace = true }
+
+[[bin]]
+name = "schedhint_ebpf"
+path = "src/main.rs"

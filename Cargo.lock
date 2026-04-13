@@ -4,6 +4,15 @@ version = 4
 
 [[package]]
 name = "aarch64-cpu"
+version = "9.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ac42a04a61c19fc8196dd728022a784baecc5d63d7e256c01ad1b3fbfab26287"
+dependencies = [
+ "tock-registers 0.8.1",
+]
+
+[[package]]
+name = "aarch64-cpu"
 version = "10.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6a21cd0131c25c438e19cd6a774adf7e3f64f7f4d723022882facc2dee0f8bc9"
@@ -110,7 +119,7 @@ name = "arm-gic-driver"
 version = "0.15.8"
 source = "git+https://github.com/Starry-OS/arm-gic-driver.git?rev=2e33925#2e33925ef33a60ee5cbc4f951fa9e198b1243926"
 dependencies = [
- "aarch64-cpu",
+ "aarch64-cpu 10.0.0",
  "bitflags 2.10.0",
  "enum_dispatch",
  "log",
@@ -188,7 +197,7 @@ dependencies = [
  "cfg-if",
  "kspin",
  "log",
- "memory_addr",
+ "memory_addr 0.4.0",
  "percpu",
 ]
 
@@ -250,7 +259,7 @@ name = "axcpu"
 version = "0.2.2"
 source = "git+https://github.com/Starry-OS/axcpu.git?rev=fc3154b#fc3154ba6499c8e458301cf51607f4d883f1f2ae"
 dependencies = [
- "aarch64-cpu",
+ "aarch64-cpu 10.0.0",
  "axbacktrace 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "cfg-if",
  "kprobe",
@@ -258,8 +267,8 @@ dependencies = [
  "linkme",
  "log",
  "loongArch64",
- "memory_addr",
- "page_table_entry",
+ "memory_addr 0.4.0",
+ "page_table_entry 0.5.5",
  "page_table_multiarch",
  "percpu",
  "riscv",
@@ -384,6 +393,15 @@ dependencies = [
 
 [[package]]
 name = "axerrno"
+version = "0.2.0"
+source = "git+https://github.com/Starry-OS/axerrno.git#97b44e3f7380a95097353baa00016a0b98059246"
+dependencies = [
+ "log",
+ "strum",
+]
+
+[[package]]
+name = "axerrno"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f961d2868582a092fb1e71b90c16cc6f2cbbe7bb5fa7e4bd6fe61d882ce6bb34"
@@ -455,7 +473,7 @@ dependencies = [
 name = "axhal"
 version = "0.2.0"
 dependencies = [
- "aarch64-cpu",
+ "aarch64-cpu 10.0.0",
  "axalloc",
  "axconfig",
  "axcpu",
@@ -473,7 +491,7 @@ dependencies = [
  "lazyinit",
  "linkme",
  "log",
- "memory_addr",
+ "memory_addr 0.4.0",
  "page_table_multiarch",
  "percpu",
 ]
@@ -522,7 +540,7 @@ dependencies = [
  "kspin",
  "lazyinit",
  "log",
- "memory_addr",
+ "memory_addr 0.4.0",
  "memory_set",
  "page_table_multiarch",
 ]
@@ -566,7 +584,7 @@ dependencies = [
  "const-str",
  "crate_interface",
  "kspin",
- "memory_addr",
+ "memory_addr 0.4.0",
 ]
 
 [[package]]
@@ -574,7 +592,7 @@ name = "axplat-aarch64-peripherals"
 version = "0.2.0"
 source = "git+https://github.com/Starry-OS/axplat_crates.git?rev=243fdc9#243fdc9265ba472cffffddc1cae9a47371caf8e3"
 dependencies = [
- "aarch64-cpu",
+ "aarch64-cpu 10.0.0",
  "arm-gic-driver",
  "arm_pl011",
  "arm_pl031",
@@ -584,7 +602,7 @@ dependencies = [
  "kspin",
  "lazyinit",
  "log",
- "page_table_entry",
+ "page_table_entry 0.5.5",
  "spin 0.10.0",
 ]
 
@@ -598,7 +616,7 @@ dependencies = [
  "axplat",
  "axplat-aarch64-peripherals",
  "log",
- "page_table_entry",
+ "page_table_entry 0.5.5",
 ]
 
 [[package]]
@@ -614,7 +632,7 @@ dependencies = [
  "lazyinit",
  "log",
  "loongArch64",
- "page_table_entry",
+ "page_table_entry 0.5.5",
  "uart_16550",
 ]
 
@@ -762,7 +780,7 @@ dependencies = [
  "kspin",
  "lazyinit",
  "log",
- "memory_addr",
+ "memory_addr 0.4.0",
  "percpu",
  "pin-project",
  "spin 0.10.0",
@@ -1189,6 +1207,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
 
 [[package]]
+name = "elf_parser"
+version = "0.1.0"
+source = "git+https://github.com/rosy233333/elf_parser.git?rev=b607034#b6070347c783cc06be1f58b81b64eadbc66d401d"
+dependencies = [
+ "axerrno 0.2.0",
+ "cfg-if",
+ "log",
+ "memory_addr 0.1.0",
+ "page_table_entry 0.1.0",
+ "xmas-elf",
+]
+
+[[package]]
 name = "embedded-hal"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1588,9 +1619,11 @@ dependencies = [
  "axfeat",
  "axio",
  "axlog",
+ "axtask",
  "kbpf-basic",
  "kmod",
  "starry-api",
+ "starry-vdso",
  "syscalls",
 ]
 
@@ -1830,6 +1863,11 @@ dependencies = [
 
 [[package]]
 name = "memory_addr"
+version = "0.1.0"
+source = "git+https://github.com/Starry-OS/memory_addr.git#a5be547a3109f114994d005b893f9b19c2616709"
+
+[[package]]
+name = "memory_addr"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3d4054cba279515fa87761b101d857333ce06391dbe8f18a11347204a7111416"
@@ -1840,7 +1878,7 @@ version = "0.4.0"
 source = "git+https://github.com/Godones/axmm_crates.git?rev=0993524#09935245d6cc025870354c47c8f5493c5f49017e"
 dependencies = [
  "axerrno 0.1.0",
- "memory_addr",
+ "memory_addr 0.4.0",
 ]
 
 [[package]]
@@ -1936,12 +1974,23 @@ dependencies = [
 
 [[package]]
 name = "page_table_entry"
+version = "0.1.0"
+source = "git+https://github.com/rosy233333/page_table_entry.git#16dc9ff22b7695490f2421af7e9d3bf38bb12285"
+dependencies = [
+ "aarch64-cpu 9.4.0",
+ "bitflags 2.10.0",
+ "memory_addr 0.1.0",
+ "x86_64",
+]
+
+[[package]]
+name = "page_table_entry"
 version = "0.5.5"
 source = "git+https://github.com/Starry-OS/page_table_multiarch.git?rev=9df46c8#9df46c822da2487ebc8a78ac411e9132e1409353"
 dependencies = [
- "aarch64-cpu",
+ "aarch64-cpu 10.0.0",
  "bitflags 2.10.0",
- "memory_addr",
+ "memory_addr 0.4.0",
  "x86_64",
 ]
 
@@ -1954,8 +2003,8 @@ dependencies = [
  "axerrno 0.1.0",
  "bitmaps",
  "log",
- "memory_addr",
- "page_table_entry",
+ "memory_addr 0.4.0",
+ "page_table_entry 0.5.5",
  "riscv",
  "x86",
 ]
@@ -2483,7 +2532,7 @@ dependencies = [
  "linux-raw-sys",
  "lock_api",
  "lwprintf-rs",
- "memory_addr",
+ "memory_addr 0.4.0",
  "num_enum",
  "rand",
  "rbpf",
@@ -2536,7 +2585,7 @@ dependencies = [
  "linkme",
  "linux-raw-sys",
  "lock_api",
- "memory_addr",
+ "memory_addr 0.4.0",
  "ouroboros",
  "percpu",
  "scope-local",
@@ -2586,9 +2635,10 @@ dependencies = [
  "axerrno 0.1.0",
  "axplat",
  "cfg-if",
+ "elf_parser",
  "kernel-elf-parser",
  "log",
- "memory_addr",
+ "memory_addr 0.4.0",
  "rand_core 0.6.4",
  "rand_pcg",
  "xmas-elf",
@@ -2856,6 +2906,13 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 
 [[package]]
 name = "vdso_call"
+version = "0.1.0"
+dependencies = [
+ "libc",
+]
+
+[[package]]
+name = "vdso_sched_call"
 version = "0.1.0"
 dependencies = [
  "libc",

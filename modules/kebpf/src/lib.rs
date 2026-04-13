@@ -101,6 +101,11 @@ pub fn kebpf_init() -> i32 {
         axlog::error!("Failed to register bpf syscall handler: {:?}", e);
         return -1;
     }
+
+    axtask::register_timer_callback(|_| {
+        map::sync_syscall_ebpf_fastpath();
+    });
+
     0
 }
 

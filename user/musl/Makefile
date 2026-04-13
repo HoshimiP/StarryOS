@@ -44,7 +44,8 @@ build:
 
 BUILD_CRATES = \
 	async_test \
-	vdso_call
+	vdso_call \
+	vdso_sched_call
 
 BUILD_EBPF_CRATES = \
 	rawtp \
@@ -54,4 +55,5 @@ BUILD_EBPF_CRATES = \
 
 BUILD_EBPF_CRATES_ARCH = \
 	syscall_ebpf \
-	kret
+	kret \
+	schedhint_ebpf

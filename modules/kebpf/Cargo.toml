@@ -8,7 +8,9 @@ repository.workspace = true
 
 [dependencies]
 axfeat.workspace = true
+axtask.workspace = true
 starry-api.workspace = true
+starry-vdso.workspace = true
 axlog.workspace = true
 axerrno.workspace = true
 axio.workspace = true

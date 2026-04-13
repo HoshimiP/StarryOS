@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["api", "core", "user/musl/async_test", "user/musl/vdso_call", "modules/hello", "modules/kebpf"]
+members = ["api", "core", "user/musl/async_test", "user/musl/vdso_call", "user/musl/vdso_sched_call", "modules/hello", "modules/kebpf"]
 exclude = ["arceos"]
 
 [workspace.package]

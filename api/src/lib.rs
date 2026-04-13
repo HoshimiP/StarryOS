@@ -50,9 +50,6 @@ impl axruntime::PanicHelper for KernelPanicHelper {
 
 /// Initialize.
 pub fn init() {
-    info!("Initialize vDSO data...");
-    starry_vdso::vdso::init_vdso_data();
-
     #[cfg(feature = "kprobe_test")]
     kprobe::kprobe_test::kprobe_test();
 
@@ -71,6 +68,21 @@ pub fn init() {
     info!("Initialize /proc/interrupts...");
     axtask::register_timer_callback(|_| {
         time::inc_irq_cnt();
+
+        let curr = axtask::current();
+        let task_state = match curr.state() {
+            axtask::TaskState::Running => starry_vdso::vdso_ebpf_data::TASK_STATE_RUNNING,
+            axtask::TaskState::Ready => starry_vdso::vdso_ebpf_data::TASK_STATE_READY,
+            axtask::TaskState::Blocked => starry_vdso::vdso_ebpf_data::TASK_STATE_BLOCKED,
+            axtask::TaskState::Exited => starry_vdso::vdso_ebpf_data::TASK_STATE_EXITED,
+        };
+
+        starry_vdso::vdso::update_sched_runtime_data(
+            curr.id().as_u64(),
+            task_state,
+            curr.cpu_id() as u8,
+            curr.name() == "idle",
+        );
     });
 
     // #[cfg(not(target_arch = "loongarch64"))]
